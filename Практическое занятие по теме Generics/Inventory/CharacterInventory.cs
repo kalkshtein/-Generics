@@ -1,13 +1,12 @@
-﻿using System.Data;
-using Практическое_занятие_по_теме_Generics.Items;
+﻿using Практическое_занятие_по_теме_Generics.Items;
 
 namespace Практическое_занятие_по_теме_Generics.Inventary
 {
     public class CharacterInventory<T>
         where T : Item
     {
-        private List<T> Items = new List<T>();
-        private List<T> EquipedItems = new List<T>();
+        private readonly List<T> _items = new();
+        private readonly List<T> _equipedItems = new();
 
         /// <summary>
         /// Добавление предмета в инвентарь.
@@ -15,7 +14,7 @@ namespace Практическое_занятие_по_теме_Generics.Inventa
         /// <param name="item">Добавляемый предмет.</param>
         public void AddItem(T item)
         {
-            Items.Add(item);
+            _items.Add(item);
         }
 
         /// <summary>
@@ -24,9 +23,9 @@ namespace Практическое_занятие_по_теме_Generics.Inventa
         /// <param name="item">Удаляемый предмет.</param>
         public void RemoveItem(T item)
         {
-            if (Items.Contains(item))
+            if (_items.Contains(item))
             {
-                Items.Remove(item);
+                _items.Remove(item);
                 return;
             }
             throw new ArgumentException("Такого предмета нет!");
@@ -37,7 +36,7 @@ namespace Практическое_занятие_по_теме_Generics.Inventa
         /// </summary>
         public int GetItemCount()
         {
-            return Items.Count;
+            return _items.Count;
         }
 
         /// <summary>
@@ -46,7 +45,7 @@ namespace Практическое_занятие_по_теме_Generics.Inventa
         public List<U> GetItemsOfType<U>()
             where U : Item
         {
-            var itemsOfTypeU = Items.OfType<U>();
+            var itemsOfTypeU = _items.OfType<U>();
             return itemsOfTypeU.ToList();
         }
 
@@ -55,7 +54,7 @@ namespace Практическое_занятие_по_теме_Generics.Inventa
         /// </summary>
         public void EquipItem(T item)
         {
-            EquipedItems.Add(item);
+            _equipedItems.Add(item);
         }
 
         /// <summary>
@@ -63,7 +62,7 @@ namespace Практическое_занятие_по_теме_Generics.Inventa
         /// </summary>
         public void UnequipItem(T item)
         {
-            EquipedItems.Remove(item);
+            _equipedItems.Remove(item);
         }
 
         /// <summary>
@@ -71,7 +70,7 @@ namespace Практическое_занятие_по_теме_Generics.Inventa
         /// </summary>
         public List<T> GetEquippedItems()
         {
-            return EquipedItems.Select(x => x).ToList();
+            return _equipedItems;
         }
     }
 }
