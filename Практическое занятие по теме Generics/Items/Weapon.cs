@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Практическое_занятие_по_теме_Generics.ItemTypes;
 
 namespace Практическое_занятие_по_теме_Generics.Items
 {
@@ -18,11 +19,17 @@ namespace Практическое_занятие_по_теме_Generics.Items
         /// </summary>
         public int AtkSpeed { get; private set; }
 
-        public Weapon(int damage, int atkSpeed ,string name, string type, bool used)
-            : base(name, type, used)
+        /// <summary>
+        /// Тип оружия.
+        /// </summary>
+        public WeaponTypes Type { get; private set; }
+
+        public Weapon(int damage, int atkSpeed, WeaponTypes type, string name)
+            : base(name)
         {
             this.Damage = damage;
             this.AtkSpeed = atkSpeed;
+            this.Type = type;
         }
     }
 }

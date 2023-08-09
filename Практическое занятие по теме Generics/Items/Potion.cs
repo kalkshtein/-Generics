@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Практическое_занятие_по_теме_Generics.ItemTypes;
 
 namespace Практическое_занятие_по_теме_Generics.Items
 {
@@ -18,11 +14,17 @@ namespace Практическое_занятие_по_теме_Generics.Items
         /// </summary>
         public int Duration { get; private set; }
 
-        public Potion(string effect, int duration, string name, string type, bool used)
-            : base(name, type, used)
+        /// <summary>
+        /// Тип зелья.
+        /// </summary>
+        public PotionTypes Type { get; private set; }
+
+        public Potion(string effect, int duration, PotionTypes type, string name)
+            : base(name)
         {
             this.Effect = effect;
             this.Duration = duration;
+            this.Type = type;
         }
     }
 }

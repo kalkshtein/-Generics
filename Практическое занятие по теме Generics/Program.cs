@@ -3,6 +3,7 @@ using System.Diagnostics.Metrics;
 using System.Reflection.PortableExecutable;
 using Практическое_занятие_по_теме_Generics.Inventary;
 using Практическое_занятие_по_теме_Generics.Items;
+using Практическое_занятие_по_теме_Generics.ItemTypes;
 
 public class Program
 {
@@ -11,41 +12,50 @@ public class Program
         var characterInventory = new CharacterInventory<Item>();
         //Создадим предметы
         //Броня.
-        var ArmorMasterHector = new Armor(509, 15, "Armor of Master Hector", "Body", true);
-        var MasterEshionArmor = new Armor(203, 13, "Master Eshion's Armor", "Body", false);
-        var MasterHectorGloves = new Armor(55, 5, "Master Hector's Gloves", "Hands", true);
-        var MasterEshionGloves = new Armor(55, 4, "Master Eshion's Gloves", "Hands", false);
-        var MasterHectorBoots = new Armor(59, 9, "Master Hector's Boots", "Legs", true);
-        var MasterEshionBoots = new Armor(59, 8, "Master Eshion's Boots", "Legs", false);
+        var armorMasterHector = new Armor(509, 15, ArmorTypes.Body ,"Armor of Master Hector");
+        var masterEshionArmor = new Armor(203, 13, ArmorTypes.Body ,"Master Eshion's Armor");
+        var masterHectorGloves = new Armor(55, 5, ArmorTypes.Hands, "Master Hector's Gloves");
+        var masterEshionGloves = new Armor(55, 4, ArmorTypes.Hands, "Master Eshion's Gloves");
+        var masterHectorBoots = new Armor(59, 9, ArmorTypes.Legs, "Master Hector's Boots");
+        var masterEshionBoots = new Armor(59, 8, ArmorTypes.Legs, "Master Eshion's Boots");
 
         //Оружие.
-        var KingValor = new Weapon(909, 14, "King's Valor", "Two-Handed Sword", true);
-        var AncientStaffChaos = new Weapon(950, 15, "Ancient Staff of Chaos", "Two-Handed Staff", false);
-        var FangDoom = new Weapon(1169, 14, "Fang of Doom", "Longbow", false);
+        var kingValor = new Weapon(909, 14, WeaponTypes.Sword, "King's Valor");
+        var ancientStaffChaos = new Weapon(950, 15, WeaponTypes.Staff, "Ancient Staff of Chaos");
+        var fangDoom = new Weapon(1169, 14, WeaponTypes.Bow, "Fang of Doom");
 
         //Зелья.
-        var RedPotion = new Potion("Heal", 3, "Red potion", "Heal potion", false);
-        var WindPotion = new Potion("Buff", 15, "Wind Potion", "Buff potion", false);
-        var PotionMagic = new Potion("Buff", 30, "Potion of Magic", "Buff potion", false);
+        var redPotion = new Potion("Heal", 3, PotionTypes.Heal, "Red potion");
+        var windPotion = new Potion("Buff", 15, PotionTypes.Buff, "Wind Potion");
+        var potionMagic = new Potion("Buff", 30, PotionTypes.Buff, "Potion of Magic");
 
         //Добавление предметов.
-        characterInventory.AddItem(ArmorMasterHector);
-        characterInventory.AddItem(MasterEshionArmor);
-        characterInventory.AddItem(MasterHectorGloves);
-        characterInventory.AddItem(MasterEshionGloves);
-        characterInventory.AddItem(MasterHectorBoots);
-        characterInventory.AddItem(MasterEshionBoots);
+        characterInventory.AddItem(armorMasterHector);
+        characterInventory.AddItem(masterEshionArmor);
+        characterInventory.AddItem(masterHectorGloves);
+        characterInventory.AddItem(masterEshionGloves);
+        characterInventory.AddItem(masterHectorBoots);
+        characterInventory.AddItem(masterEshionBoots);
 
-        characterInventory.AddItem(KingValor);
-        characterInventory.AddItem(AncientStaffChaos);
-        characterInventory.AddItem(FangDoom);
+        characterInventory.AddItem(kingValor);
+        characterInventory.AddItem(ancientStaffChaos);
+        characterInventory.AddItem(fangDoom);
 
-        characterInventory.AddItem(RedPotion);
-        characterInventory.AddItem(WindPotion);
+        characterInventory.AddItem(redPotion);
+        characterInventory.AddItem(windPotion);
 
+        //Экипировать предметы.
+        characterInventory.EquipItem(armorMasterHector);
+        characterInventory.EquipItem(masterHectorGloves);
+        characterInventory.EquipItem(masterHectorBoots);
+        characterInventory.EquipItem(masterEshionBoots);
+
+        //Снять предметы.
+        characterInventory.UnequipItem(masterEshionBoots);
+        
         //Удаление предметов.
-        characterInventory.RemoveItem(AncientStaffChaos);
-        characterInventory.RemoveItem(WindPotion);
+        characterInventory.RemoveItem(ancientStaffChaos);
+        //characterInventory.RemoveItem(potionMagic);   //Удаление неиспользуемого предмета
 
         //Количество предметов.
         Console.WriteLine("Количество предметов в инвентаре = " + characterInventory.GetItemCount());

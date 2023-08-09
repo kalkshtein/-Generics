@@ -1,28 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Практическое_занятие_по_теме_Generics.ItemTypes;
 
 namespace Практическое_занятие_по_теме_Generics.Items
 {
     public class Armor : Item
     {
         /// <summary>
-        /// Урон.
+        /// Защита.
         /// </summary>
         public int Defence { get; private set; }
 
         /// <summary>
-        /// Скорость атаки.
+        /// Вес.
         /// </summary>
         public int Weight { get; private set; }
 
-        public Armor(int defence, int weight,string name, string type, bool used)
-            : base(name, type, used)
+        /// <summary>
+        /// Тип брони.
+        /// </summary>
+        public ArmorTypes Type { get; private set; }
+
+        public Armor(int defence, int weight, ArmorTypes type, string name)
+            : base(name)
         {
             this.Defence = defence;
             this.Weight = weight;
+            this.Type = type;
         }
     }
 }

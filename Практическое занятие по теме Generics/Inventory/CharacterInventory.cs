@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data;
 using Практическое_занятие_по_теме_Generics.Items;
 
 namespace Практическое_занятие_по_теме_Generics.Inventary
@@ -11,6 +7,7 @@ namespace Практическое_занятие_по_теме_Generics.Inventa
         where T : Item
     {
         private List<T> Items = new List<T>();
+        private List<T> EquipedItems = new List<T>();
 
         /// <summary>
         /// Добавление предмета в инвентарь.
@@ -27,14 +24,12 @@ namespace Практическое_занятие_по_теме_Generics.Inventa
         /// <param name="item">Удаляемый предмет.</param>
         public void RemoveItem(T item)
         {
-            try
+            if (Items.Contains(item))
             {
                 Items.Remove(item);
+                return;
             }
-            catch
-            {
-                Console.WriteLine("Такого предмета нет!");
-            }
+            throw new ArgumentException("Такого предмета нет!");
         }
 
         /// <summary>
@@ -56,11 +51,27 @@ namespace Практическое_занятие_по_теме_Generics.Inventa
         }
 
         /// <summary>
+        /// Надеть предмет.
+        /// </summary>
+        public void EquipItem(T item)
+        {
+            EquipedItems.Add(item);
+        }
+
+        /// <summary>
+        /// Снять предмет.
+        /// </summary>
+        public void UnequipItem(T item)
+        {
+            EquipedItems.Remove(item);
+        }
+
+        /// <summary>
         /// Вовращает список предметов используемые персонажем.
         /// </summary>
         public List<T> GetEquippedItems()
         {
-            return Items.Where(x => x.Used).ToList();
+            return EquipedItems.Select(x => x).ToList();
         }
     }
 }
