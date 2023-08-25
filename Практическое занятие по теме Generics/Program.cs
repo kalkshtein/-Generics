@@ -1,4 +1,7 @@
-﻿using Практическое_занятие_по_теме_Generics.Inventary;
+﻿using System;
+using System.Diagnostics.Metrics;
+using System.Reflection.PortableExecutable;
+using Практическое_занятие_по_теме_Generics.Inventary;
 using Практическое_занятие_по_теме_Generics.Items;
 using Практическое_занятие_по_теме_Generics.ItemTypes;
 
@@ -6,26 +9,25 @@ public class Program
 {
     public static void Main()
     {
-        var characterInventory = new CharacterInventory<Item>(new Money(100));
+        var characterInventory = new CharacterInventory<Item>();
         //Создадим предметы
         //Броня.
-        var armorMasterHector = new Armor(509, 15, ArmorTypes.Body, "Armor of Master Hector", 1);
-        var masterEshionArmor = new Armor(203, 13, ArmorTypes.Body, "Master Eshion's Armor", 1);
-        var masterHectorGloves = new Armor(55, 5, ArmorTypes.Hands, "Master Hector's Gloves", 1);
-        var masterEshionGloves = new Armor(55, 4, ArmorTypes.Hands, "Master Eshion's Gloves", 1);
-        var masterHectorBoots = new Armor(59, 9, ArmorTypes.Legs, "Master Hector's Boots", 1);
-        var masterEshionBoots = new Armor(59, 8, ArmorTypes.Legs, "Master Eshion's Boots", 1);
+        var armorMasterHector = new Armor(509, 15, ArmorTypes.Body ,"Armor of Master Hector");
+        var masterEshionArmor = new Armor(203, 13, ArmorTypes.Body ,"Master Eshion's Armor");
+        var masterHectorGloves = new Armor(55, 5, ArmorTypes.Hands, "Master Hector's Gloves");
+        var masterEshionGloves = new Armor(55, 4, ArmorTypes.Hands, "Master Eshion's Gloves");
+        var masterHectorBoots = new Armor(59, 9, ArmorTypes.Legs, "Master Hector's Boots");
+        var masterEshionBoots = new Armor(59, 8, ArmorTypes.Legs, "Master Eshion's Boots");
 
         //Оружие.
-        var kingValor = new Weapon(909, 14, WeaponTypes.Sword, "King's Valor", 1);
-        var kingValorControl = new Weapon(909, 14, WeaponTypes.Sword, "King's Valor", 3);
-        var ancientStaffChaos = new Weapon(950, 15, WeaponTypes.Staff, "Ancient Staff of Chaos", 1);
-        var fangDoom = new Weapon(1169, 14, WeaponTypes.Bow, "Fang of Doom", 1);
+        var kingValor = new Weapon(909, 14, WeaponTypes.Sword, "King's Valor");
+        var ancientStaffChaos = new Weapon(950, 15, WeaponTypes.Staff, "Ancient Staff of Chaos");
+        var fangDoom = new Weapon(1169, 14, WeaponTypes.Bow, "Fang of Doom");
 
         //Зелья.
-        var redPotion = new Potion("Heal", 3, PotionTypes.Heal, "Red potion", 1);
-        var windPotion = new Potion("Buff", 15, PotionTypes.Buff, "Wind Potion", 1);
-        var potionMagic = new Potion("Buff", 30, PotionTypes.Buff, "Potion of Magic", 1);
+        var redPotion = new Potion("Heal", 3, PotionTypes.Heal, "Red potion");
+        var windPotion = new Potion("Buff", 15, PotionTypes.Buff, "Wind Potion");
+        var potionMagic = new Potion("Buff", 30, PotionTypes.Buff, "Potion of Magic");
 
         //Добавление предметов.
         characterInventory.AddItem(armorMasterHector);
@@ -36,7 +38,6 @@ public class Program
         characterInventory.AddItem(masterEshionBoots);
 
         characterInventory.AddItem(kingValor);
-        characterInventory.AddItem(kingValorControl);
         characterInventory.AddItem(ancientStaffChaos);
         characterInventory.AddItem(fangDoom);
 
@@ -51,13 +52,13 @@ public class Program
 
         //Снять предметы.
         characterInventory.UnequipItem(masterEshionBoots);
-
+        
         //Удаление предметов.
         characterInventory.RemoveItem(ancientStaffChaos);
         //characterInventory.RemoveItem(potionMagic);   //Удаление неиспользуемого предмета
 
         //Количество предметов.
-        Console.WriteLine($"Количество предметов в инвентаре = {characterInventory.GetItemCount()}");
+        Console.WriteLine("Количество предметов в инвентаре = " + characterInventory.GetItemCount());
 
         //Используемые предметы.
         Console.WriteLine("\n" + "Сейчас надеты следующие предметы: ");
@@ -70,44 +71,19 @@ public class Program
         Console.WriteLine("\n" + "Предметы типа Weapon: ");
         foreach (var item in characterInventory.GetItemsOfType<Weapon>())
         {
-            Console.WriteLine($"{item.Name} в количестве {item.Count}");
+            Console.WriteLine(item.Name);
         }
 
         Console.WriteLine("\n" + "Предметы типа Potion: ");
         foreach (var item in characterInventory.GetItemsOfType<Potion>())
         {
-            Console.WriteLine($"{item.Name} в количестве {item.Count}");
+            Console.WriteLine(item.Name);
         }
 
         Console.WriteLine("\n" + "Предметы типа Armor: ");
         foreach (var item in characterInventory.GetItemsOfType<Armor>())
         {
-            Console.WriteLine($"{item.Name} в количестве {item.Count}");
+            Console.WriteLine(item.Name);
         }
-
-        Console.WriteLine("\n" + "Пришли к торговцу: ");
-
-        Console.WriteLine($"\n Начальное кол-во монет в инвентаре: {characterInventory.GetNumberCoins()}");
-
-        //Продадим нафармленый лишний шмот, дабы обогатиться
-        characterInventory.SellItem(kingValorControl, 10000, "King's Valor", 2);
-
-        Console.WriteLine($"\n Кол-во монет в инвентаре: {characterInventory.GetNumberCoins()}");
-
-        //Купим то что действительно нужно
-        characterInventory.BuyItem(fangDoom, 5000, "Fang of Doom", 2);
-        characterInventory.BuyItem(redPotion, 100, "Red potion", 30);
-
-        Console.WriteLine($"\n Кол-во монет в инвентаре: {characterInventory.GetNumberCoins()}");
-
-        //Попробуем купить что то сверх бюджета
-        characterInventory.BuyItem(new Weapon(5000, 300, WeaponTypes.Sword, "Big Sword of Barbarian", 1), 35000, "Big Sword of Barbarian", 1);
-
-        Console.WriteLine($"\n Кол-во монет в инвентаре: {characterInventory.GetNumberCoins()}");
-
-        //Попробуем продать что то чего нет
-        characterInventory.SellItem(masterHectorGloves, 2000, "Master Hector's Gloves", 5);
-        
-        Console.WriteLine($"\n Кол-во монет в инвентаре: {characterInventory.GetNumberCoins()}");
     }
 }
