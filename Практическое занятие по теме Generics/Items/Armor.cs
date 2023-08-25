@@ -19,8 +19,8 @@ namespace Практическое_занятие_по_теме_Generics.Items
         /// </summary>
         public ArmorTypes Type { get; private set; }
 
-        public Armor(int defence, int weight, ArmorTypes type, string name)
-            : base(name)
+        public Armor(int defence, int weight, ArmorTypes type, string name, int count)
+            : base(name, count)
         {
             this.Defence = defence;
             this.Weight = weight;

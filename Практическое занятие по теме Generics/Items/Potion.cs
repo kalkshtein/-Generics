@@ -19,8 +19,8 @@ namespace Практическое_занятие_по_теме_Generics.Items
         /// </summary>
         public PotionTypes Type { get; private set; }
 
-        public Potion(string effect, int duration, PotionTypes type, string name)
-            : base(name)
+        public Potion(string effect, int duration, PotionTypes type, string name, int count)
+            : base(name, count)
         {
             this.Effect = effect;
             this.Duration = duration;

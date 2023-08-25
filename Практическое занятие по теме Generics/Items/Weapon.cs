@@ -24,8 +24,8 @@ namespace Практическое_занятие_по_теме_Generics.Items
         /// </summary>
         public WeaponTypes Type { get; private set; }
 
-        public Weapon(int damage, int atkSpeed, WeaponTypes type, string name)
-            : base(name)
+        public Weapon(int damage, int atkSpeed, WeaponTypes type, string name, int count)
+            : base(name, count)
         {
             this.Damage = damage;
             this.AtkSpeed = atkSpeed;
