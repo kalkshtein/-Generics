@@ -1,4 +1,5 @@
-﻿using Практическое_занятие_по_теме_Generics.Inventary;
+﻿using Практическое_занятие_по_теме_Generics;
+using Практическое_занятие_по_теме_Generics.Inventary;
 using Практическое_занятие_по_теме_Generics.Items;
 using Практическое_занятие_по_теме_Generics.ItemTypes;
 
@@ -7,6 +8,21 @@ public class Program
     public static void Main()
     {
         var characterInventory = new CharacterInventory<Item>(new Money(100));
+        var eventsHandlers = new EventsInventoryHandlers<Item>(characterInventory);
+
+        characterInventory.SellEvent += eventsHandlers.OnSellEventMessage;
+        characterInventory.SellEvent += eventsHandlers.BalanceMessage;
+
+        characterInventory.NotSellEvent += eventsHandlers.OnNotsellEventMessage;
+        characterInventory.NotSellEvent += eventsHandlers.BalanceMessage;
+
+        characterInventory.BuyEvent += eventsHandlers.OnBuyEventMessage;
+        characterInventory.BuyEvent += eventsHandlers.BalanceMessage;
+
+        characterInventory.NotBuyEvent += eventsHandlers.OnNotBuyEventMessage;
+        characterInventory.NotBuyEvent += eventsHandlers.BalanceMessage;
+
+
         //Создадим предметы
         //Броня.
         var armorMasterHector = new Armor(509, 15, ArmorTypes.Body, "Armor of Master Hector", 1);
@@ -87,27 +103,23 @@ public class Program
 
         Console.WriteLine("\n" + "Пришли к торговцу: ");
 
-        Console.WriteLine($"\n Начальное кол-во монет в инвентаре: {characterInventory.GetNumberCoins()}");
-
-        //Продадим нафармленый лишний шмот, дабы обогатиться
+        //Продадим нафармленый лишний шмот, дабы обогатиться с обработчиком
         characterInventory.SellItem(kingValorControl, 10000, "King's Valor", 2);
 
-        Console.WriteLine($"\n Кол-во монет в инвентаре: {characterInventory.GetNumberCoins()}");
+        characterInventory.SellEvent -= eventsHandlers.BalanceMessage;
+        characterInventory.BuyEvent -= eventsHandlers.BalanceMessage;
+        characterInventory.NotSellEvent -= eventsHandlers.BalanceMessage;
+        characterInventory.NotBuyEvent -= eventsHandlers.BalanceMessage;
+
+        //Попробуем продать что то чего нет
+        characterInventory.SellItem(masterHectorGloves, 2000, "Master Hector's Gloves", 5);
 
         //Купим то что действительно нужно
         characterInventory.BuyItem(fangDoom, 5000, "Fang of Doom", 2);
         characterInventory.BuyItem(redPotion, 100, "Red potion", 30);
 
-        Console.WriteLine($"\n Кол-во монет в инвентаре: {characterInventory.GetNumberCoins()}");
-
         //Попробуем купить что то сверх бюджета
         characterInventory.BuyItem(new Weapon(5000, 300, WeaponTypes.Sword, "Big Sword of Barbarian", 1), 35000, "Big Sword of Barbarian", 1);
 
-        Console.WriteLine($"\n Кол-во монет в инвентаре: {characterInventory.GetNumberCoins()}");
-
-        //Попробуем продать что то чего нет
-        characterInventory.SellItem(masterHectorGloves, 2000, "Master Hector's Gloves", 5);
-        
-        Console.WriteLine($"\n Кол-во монет в инвентаре: {characterInventory.GetNumberCoins()}");
     }
 }
