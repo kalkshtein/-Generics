@@ -7,15 +7,9 @@
         /// </summary>
         public string Name { get; private set; }
 
-        /// <summary>
-        /// Количество предмета в инвентаре.
-        /// </summary>
-        public int Count { get; private set; }
-
-        public Item(string name, int count)
+        public Item(string name) 
         {
             this.Name = name;
-            this.Count += count;
         }
     }
 }
